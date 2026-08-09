@@ -33,3 +33,15 @@ variable "az_index" {
   type        = number
   default     = 0
 }
+
+variable "master_instance_type" {
+  description = "EC2 instance type for control-plane nodes. kubeadm requires >= 2 vCPU / 2 GiB; sized generously for development."
+  type        = string
+  default     = "t3.large"
+}
+
+variable "master_key_name" {
+  description = "EC2 key pair name for SSH access to control-plane nodes. Null to launch without one."
+  type        = string
+  default     = null
+}
