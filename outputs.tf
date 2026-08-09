@@ -32,3 +32,17 @@ output "master_instance_ids" {
   description = "Map of control-plane node name to its EC2 instance ID."
   value       = { for k, m in module.master : k => m.id }
 }
+
+# Future kube-apiserver endpoint: use this DNS name in kubeconfigs and as
+# kubeadm's controlPlaneEndpoint.
+output "api_nlb_dns_name" {
+  description = "DNS name of the internal NLB fronting the Kubernetes API server."
+  value       = aws_lb.api.dns_name
+}
+
+# Stable control-plane name: use this (not the raw NLB DNS name) as kubeadm's
+# controlPlaneEndpoint and in kubeconfigs — it survives NLB recreation.
+output "control_plane_endpoint" {
+  description = "Stable private DNS name of the Kubernetes API server endpoint."
+  value       = aws_route53_record.control_plane.fqdn
+}
