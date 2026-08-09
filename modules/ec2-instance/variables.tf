@@ -62,3 +62,9 @@ variable "extra_tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "iam_instance_profile" {
+  description = "Name of an IAM instance profile to attach to the instance. Null for none."
+  type        = string
+  default     = null
+}

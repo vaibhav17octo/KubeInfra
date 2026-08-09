@@ -35,6 +35,9 @@ module "master" {
   private_ip    = each.value
   key_name      = var.master_key_name
 
+  # SSM Session Manager access (see iam.tf).
+  iam_instance_profile = aws_iam_instance_profile.node.name
+
   vpc_security_group_ids = [aws_security_group.masters.id]
 }
 

@@ -13,6 +13,10 @@ resource "aws_instance" "this" {
   vpc_security_group_ids = var.vpc_security_group_ids
   key_name               = var.key_name
 
+  # Attaching a profile to a running instance is an in-place update
+  # (no replacement). Null means no profile.
+  iam_instance_profile = var.iam_instance_profile
+
   # Kubernetes nodes route pod traffic (CNI), so source/dest check must be off.
   source_dest_check = var.source_dest_check
 
