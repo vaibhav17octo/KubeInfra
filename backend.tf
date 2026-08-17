@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     # Bucket created by bootstrap/ — replace the suffix with the value
     # you passed as bucket_suffix there (e.g. your AWS account ID).
-    bucket = "kubeinfra-tfstate-452630323308"
+    bucket = "kubeinfra-tfstate-941377138227"
     key    = "kubeinfra/terraform.tfstate"
     region = "us-east-1"
 

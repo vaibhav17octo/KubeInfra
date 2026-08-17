@@ -4,8 +4,11 @@
 # Private hosted zone: only resolves inside the associated VPC, via the VPC's
 # AmazonProvidedDNS resolver. This requires DNS support + hostnames on the VPC,
 # which are already enabled in vpc.tf.
-resource "aws_route53_zone" "kube_local" {
-  name = "kube.local"
+# Named .internal (not .local): .local is reserved for mDNS, and Ubuntu's
+# systemd-resolved SERVFAILs .local queries instead of forwarding them to
+# the VPC resolver.
+resource "aws_route53_zone" "kube_internal" {
+  name = "kube.internal"
 
   vpc {
     vpc_id = aws_vpc.main.id
@@ -16,8 +19,8 @@ resource "aws_route53_zone" "kube_local" {
 # resolves the NLB's addresses at query time, so if the NLB's underlying IPs
 # change the record stays correct with no charge per query.
 resource "aws_route53_record" "control_plane" {
-  zone_id = aws_route53_zone.kube_local.zone_id
-  name    = "control-plane.kube.local"
+  zone_id = aws_route53_zone.kube_internal.zone_id
+  name    = "control-plane.kube.internal"
   type    = "A"
 
   alias {

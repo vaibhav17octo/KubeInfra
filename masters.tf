@@ -1,16 +1,16 @@
 # Kubernetes control-plane ("master") nodes: 3 instances with static private
 # IPs in the private subnet, forming an HA kubeadm control plane.
 
-# Latest Amazon Linux 2023 AMI (prior team decision for node OS). Looked up
-# directly rather than via the SSM /aws/service parameter, which is
+# Latest Ubuntu 24.04 LTS (Noble) AMI, published by Canonical. Looked up
+# directly rather than via an SSM /aws/service parameter, which is
 # access-restricted in some accounts.
-data "aws_ami" "al2023" {
+data "aws_ami" "ubuntu" {
   most_recent = true
-  owners      = ["amazon"]
+  owners      = ["099720109477"] # Canonical's official AWS account
 
   filter {
     name   = "name"
-    values = ["al2023-ami-2023*-x86_64"]
+    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"]
   }
 }
 
@@ -29,7 +29,7 @@ module "master" {
   for_each = local.masters
 
   name          = each.key
-  ami           = data.aws_ami.al2023.id
+  ami           = data.aws_ami.ubuntu.id
   instance_type = var.master_instance_type
   subnet_id     = aws_subnet.private.id
   private_ip    = each.value

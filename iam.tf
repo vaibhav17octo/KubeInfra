@@ -21,8 +21,8 @@ resource "aws_iam_role" "node" {
 }
 
 # Enables SSM Session Manager shell access — no SSH keys or bastion needed;
-# AL2023 ships the SSM agent preinstalled, and NAT egress lets it reach the
-# regional SSM endpoints.
+# Ubuntu AMIs ship the SSM agent preinstalled (as a snap), and NAT egress
+# lets it reach the regional SSM endpoints.
 resource "aws_iam_role_policy_attachment" "node_ssm" {
   role       = aws_iam_role.node.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"

@@ -33,7 +33,7 @@ resource "aws_instance" "this" {
     var.extra_tags
   )
 
-  # The AMI data source re-resolves to the newest AL2023 image on every plan.
+  # The AMI data source re-resolves to the newest image on every plan.
   # Without this, a new AMI release would destroy/recreate the instance.
   # OS upgrades are done deliberately (team policy), not via Terraform drift.
   lifecycle {
