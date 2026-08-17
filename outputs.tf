@@ -33,6 +33,16 @@ output "master_instance_ids" {
   value       = { for k, m in module.master : k => m.id }
 }
 
+output "worker_private_ips" {
+  description = "Map of worker node name to its static private IP."
+  value       = { for k, w in module.worker : k => w.private_ip }
+}
+
+output "worker_instance_ids" {
+  description = "Map of worker node name to its EC2 instance ID."
+  value       = { for k, w in module.worker : k => w.id }
+}
+
 # Future kube-apiserver endpoint: use this DNS name in kubeconfigs and as
 # kubeadm's controlPlaneEndpoint.
 output "api_nlb_dns_name" {

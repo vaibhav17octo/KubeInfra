@@ -45,3 +45,15 @@ variable "master_key_name" {
   type        = string
   default     = null
 }
+
+variable "worker_instance_type" {
+  description = "EC2 instance type for worker nodes. Sized to match control-plane nodes for development."
+  type        = string
+  default     = "t3.large"
+}
+
+variable "worker_key_name" {
+  description = "EC2 key pair name for SSH access to worker nodes. Null to launch without one."
+  type        = string
+  default     = null
+}
